@@ -2,9 +2,9 @@
 % Please edit documentation in R/pro.sgpv.R
 \name{plot.sgpv}
 \alias{plot.sgpv}
-\title{Plot variable selection results}
+\title{\code{plot.sgpv}: Plot variable selection results}
 \usage{
-\method{plot}{sgpv}(x, lpv = 3, lambda.max = NULL, ...)
+\method{plot}{sgpv}(x, lpv = 3, lambda.max = NULL, short.label = T, ...)
 }
 \arguments{
 \item{x}{An \code{sgpv} object}
@@ -15,24 +15,33 @@ point estimates as well as 95\% confidence interval will be plotted. Default is 
 
 \item{lambda.max}{The maximum lambda on the plot. Default is \code{NULL}.}
 
+\item{short.label}{An indicator if a short label is used for each variable for
+better visualization. Default is \code{TRUE}}
+
 \item{...}{Other \code{plot} arguments}
 }
 \description{
-S3 method \code{plot} for an object of class \code{sgpv}. This function plots
-the fully relaxed lasso solution path on
-the standardized scale and the final variable selection results
+S3 method \code{plot} for an object of class \code{sgpv}. When the two-stage
+algorithm is used, this function plots the fully relaxed lasso solution path on
+the standardized scale and the final variable selection results. When the
+one-stage algorithm is used, a histogram of all coefficients with selected effects
+is shown.
 }
 \examples{
-
-# load the package
-library(ProSGPV)
 
 # prepare the data
 x <- t.housing[, -ncol(t.housing)]
 y <- t.housing$V9
 
+# one-stage algorithm
+out.sgpv.1 <- pro.sgpv(x = x, y = y, stage = 1)
+
+# plot the selection result
+
+plot(out.sgpv.1)
+
 # two-stage algorithm
-out.sgpv.2 <- pro.sgpv(x = x, y = y, stage = 2)
+out.sgpv.2 <- pro.sgpv(x = x, y = y)
 
 # plot the fully relaxed lasso solution path and final solution
 plot(out.sgpv.2)
